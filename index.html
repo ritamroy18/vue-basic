@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Conditional and Rendering List</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-if="show">You can see me!</p>
+        <p v-else>Now you see me!</p>
+        <!-- This will hide the paragraph with style display:none -->
+        <p v-show="show">Do you also see me?</p>
+        <template v-if="show">
+            <h1>Heading</h1>
+            <p>Inside a template</p>
+        </template> 
+        <button @click="show = !show">Switch</button>
+        <ul>
+            <li v-for="(ingredient,i) in ingredients">
+              {{ ingredient }} ({{i}})
+             </li>
+        </ul>
+        <hr>
+        <ul>
+          <li v-for="persons in persons">
+            <!-- {{ persons.name}} - {{ persons.age}} - {{ persons.color}} -->
+            <div v-for="(value,key,index) in persons">
+              {{key}} : {{value}}  ({{index}})
+            </div>
+          </li>
+        </ul>
+        <span v-for="n in 10">{{n}}</span>
+        <!-- Another way for loop -->
+        <template v-for="(ingredient,i) in ingredients" :key="ingredient">
+          <h1>{{ ingredient }} </h1>
+          <p> {{i}} </p>
+
+       
+        </template>
+        <button @click="ingredients.push('spices')">Add Me</button>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                show: true,
+                ingredients:['meat','fruit','cookies'],
+                persons:[
+                  {name:"Ritam",age:"27",color:"red"},
+                  {name:"Max",age:"27",color:"green"}
+                ]
+            }
+        })
+    </script>
+</body>
+</html>

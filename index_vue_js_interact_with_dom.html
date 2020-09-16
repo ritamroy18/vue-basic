@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Js Course</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-on:input="changeTitle">
+        <p v-once>{{ title }}</p>
+        <p>{{ sayHello() }}-<a v-bind:href="link">Google</a></p>
+        <p>{{finishedLink }}</p>
+        <hr>
+        <p v-html="finishedLink"></p>
+        <button v-on:click="increase">Click Me</button><br><br>
+        <button v-on:click="increaseButton(2,$event)">Increase Me</button><br><br>
+        {{counter}}
+        <p v-on:mousemove="updateCoordinates">Coordiantes: {{ x }} / {{ y }}---
+            <!-- <span v-on:mousemove="dummy">DEAD SPOT</span> -->
+            <!-- same as below -->
+            <span v-on:mousemove.stop="">DEAD SPOT</span>
+        </p>
+        <br>
+        <input type="text" v-on:keyup="alertMe">
+        <br><br><br>
+        <input type="text" v-on:keyup.enter.space="alertMeAgain">
+        <br><br><br>
+        <!-- Two Way Binding -->
+        <input type="text" v-model="name">
+        <p> {{name}} </p>
+        <br><br><br>
+        <button v-on:click="counter++">Increase</button>
+        <br><br>
+        <button v-on:click="counter--">Decrease</button>
+        <br><br>
+        <button v-on:click="secondCounter++">Increase Second</button>
+        <br><br>
+        <p>Counter: {{counter}} | {{secondCounter}} </p>
+        <br><br>
+        <p>Result: {result() }} | {{ output }} </p>
+        <br><br>
+        <button @click="changeLink">Click to Change Link</button><br><br>
+        <!-- Alternative Bind -->
+        <a :href="link">Link</a>
+        <!-- <p> {{ output }} </p> -->
+        <div class="demo" @click="attachRed =! attachRed" 
+        :class="{'red':attachRed}">
+            Red
+        </div>
+        <!-- <div class="demo" :style="{backgroundColor:color}">
+        </div> -->
+        <!-- <div class="demo" :style="myStyle">
+        </div> -->
+        <div class="demo" :class="[color,{red: attachRed }]" >
+            demo
+        </div>
+        <br>
+        <div class="demo" :style="myStyle">
+        </div>
+        <br>
+        <div class="demo" :style="[myStyle , {height:width + 'px'}]">
+        </div>
+        <hr>
+        <input type="text" v-model="color">
+
+        <input type="text" v-model="width">
+
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                title: 'Hello World',
+                name: 'Dx',
+                link:  'https://google.com',
+                finishedLink: '<a href="https://google.com">Google</a>',
+                counter:0,
+                secondCounter:0,
+                x:0,
+                y:0,
+                attachRed:false,
+                color:'green',
+                width:100
+            },
+            computed: {
+                output:function() {
+                    console.log('computed');
+                    return this.counter > 5 ? 'Greater 5': 'smaller than 5'
+                },
+                myStyle:function() {
+                    return {
+                        backgroundColor : this.color,
+                        width: this.width + 'px'
+                    }
+                }
+            },
+
+            watch:{
+                counter:function(value) {
+                    var vm = this;
+                    setTimeout(function() {
+                        vm.counter = 0;
+                    },2000)
+                }
+
+            },
+            methods: {
+                changeTitle: function (event) {
+                    this.title = event.target.value;
+                },
+                sayHello:function() {
+                    // return 'Hello!!'
+                    this.title = 'Hello'
+                    return this.title;
+                },
+                increase:function() {
+                    this.counter++;
+                },
+                increaseButton:function(step,event) {
+                    this.counter+= step;
+                },
+                updateCoordinates:function(event) {
+                    this.x =  event.clientX;
+                    this.y = event.clientY;
+                },
+                // dummy:function(event) {
+                //    event.stopPropagation()
+                // },
+                alertMe:function(event) {
+                    alert('Alert')
+                },
+                alertMeAgain:function(event) {
+                    alert('Give Space')
+                },
+                result:function() {
+                    console.log('computed');
+                    return this.counter > 5 ? 'Greater 5': 'smaller than 5'
+                },
+                changeLink:function() {
+                    console.log("Welcome to google");
+                    this.link='https://www.facebook.com'
+                }
+            }
+        })
+    </script>
+    <style>
+        .demo {
+            width: 100px;
+            height: 100px;
+            background-color: grey;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .red {
+            background-color: red;
+        }
+        .green {
+            background-color: green;
+        }
+        .blue {
+            background-color: blue;
+        }
+    </style>
+</body>
+
+</html>
